@@ -1,0 +1,49 @@
+version: "3"
+
+networks:
+  loadbalancer0:
+    driver: "bridge"
+
+volumes:
+  nginx_:
+  vhost_:
+  certs_:
+  letsencrypt_:
+
+services:
+
+  lb_nginx:
+    image: jwilder/nginx-proxy:alpine
+    container_name: lb_nginx
+    restart: always
+    expose:
+      - "80"
+      - "443"
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - loadbalancer0
+    volumes:
+      - vhost_:/etc/nginx/vhost.d
+      - nginx_:/etc/nginx/conf.d
+      - letsencrypt_:/usr/share/nginx/html
+      - certs_:/etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  lb_letsencrypt:
+    depends_on:
+      - lb_nginx
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: lb_letsencrypt
+    restart: always
+    networks:
+      - loadbalancer0
+    volumes:
+      - vhost_:/etc/nginx/vhost.d
+      - nginx_:/etc/nginx/conf.d
+      - letsencrypt_:/usr/share/nginx/html
+      - certs_:/etc/nginx/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NGINX_DOCKER_GEN_CONTAINER=lb_nginx

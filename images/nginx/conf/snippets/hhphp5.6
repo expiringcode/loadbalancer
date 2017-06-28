@@ -1,0 +1,28 @@
+location ~ \.(hh|php)$ {
+    fastcgi_intercept_errors on;
+    error_page 502 = @fallback;
+    error_page 500 = @fallback;
+    error_page 501 = @fallback;
+
+    add_header X-System HHVM;
+    
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    fastcgi_keep_conn on;
+    include         snippets/fastcgi_params;
+    fastcgi_index   index.php;
+    fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param   SERVER_NAME $host;
+    fastcgi_pass    hhvm:9000;
+}
+
+location @fallback {
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+
+    add_header X-System PHP;
+
+    include         snippets/fastcgi_params;
+    fastcgi_index   index.php;
+    fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param   SERVER_NAME $host;
+    fastcgi_pass    legacy:9000;
+}

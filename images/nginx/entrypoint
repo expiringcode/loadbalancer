@@ -1,0 +1,15 @@
+set -e
+
+nginx -t
+
+## Monitor directory changes to reload nginx with new directives
+
+service nginx start
+
+if [ -z "$(ls -A $WORKDIR | grep nginx)" ]; then
+	echo "Creating nginx dir because it doesn't exist"
+	mkdir -p $WORKDIR/nginx
+fi
+
+cd $WORKDIR/nginx/
+onchange service nginx reload && "$@"

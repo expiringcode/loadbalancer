@@ -1,0 +1,10 @@
+#
+#      SSL REDIRECT
+#
+server {
+		listen 80 default_server;
+		listen [::]:80 default_server ipv6only=on;
+
+		server_name ~^(www\.)?(?<domain>.+)$;
+    	return         301 https://$domain$request_uri;
+}

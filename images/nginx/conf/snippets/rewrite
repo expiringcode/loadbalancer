@@ -1,0 +1,11 @@
+
+## Rewrite
+        # Checking if a file exists, if it doesn't the rewrite rule is applied
+        location / {
+                try_files $uri $uri/ @rewrites;
+        }
+
+        # Rewrite rules
+        location @rewrites {
+                rewrite .* /index.php last;
+        }

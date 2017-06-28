@@ -1,0 +1,23 @@
+#
+#      FRONTEND REDIRECT
+#
+
+#upstream nodejs {
+#	ip_hash;
+#	server node:3000;
+#}
+#
+#server {
+#	 server_name ~^(www\.)?(?<domain>frontend)$;
+#    root /app;
+#
+#    #include snippets/sslhttp2;
+#
+#    include snippets/node;
+#    
+#    include snippets/common;
+#    
+#    include snippets/deny;
+#
+#    include snippets/caching;
+#}
