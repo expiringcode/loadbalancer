@@ -1,6 +1,4 @@
-FROM nginx:1.11.12
-#FROM phusion/baseimage:0.9.19
-# ubuntu:xenial
+FROM nginx:1.13.1
 
 ## Installing nginx and wget and eventually selinux
 RUN apt-get update && apt-get install -y --no-install-recommends \
