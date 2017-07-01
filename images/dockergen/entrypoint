@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ls /etc/docker-gen/templates/
+
+cat /etc/docker-gen/templates/nginx.tmpl

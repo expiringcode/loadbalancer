@@ -1,0 +1,20 @@
+version: '3'
+
+services: 
+
+  lb_test_2:
+    image: nginx:1.13-alpine
+    container_name: lb_test_2
+    restart: unless-stopped
+    expose:
+      - "80"
+      - "443"
+    networks:
+      - loadbalancer0
+    environment:
+      - VIRTUAL_HOST=localhost
+
+networks:
+  loadbalancer0:
+    external:
+      name: network_loadbalancer0
