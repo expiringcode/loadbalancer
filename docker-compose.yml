@@ -49,6 +49,7 @@ services:
   lb_letsencrypt:
     depends_on:
       - lb_nginx
+      - lb_dockergen
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: lb_letsencrypt
     restart: unless-stopped
