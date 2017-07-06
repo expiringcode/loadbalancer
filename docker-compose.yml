@@ -30,7 +30,7 @@ services:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
       - letsencrypt_:/usr/share/nginx/html
-      - certs_:/etc/nginx/certs
+      - certs_:/etc/nginx/certs:ro
 
   lb_dockergen: 
     build: images/dockergen
@@ -43,7 +43,7 @@ services:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
       - letsencrypt_:/usr/share/nginx/html
-      - certs_:/etc/nginx/certs
+      - certs_:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
   lb_letsencrypt:
@@ -59,8 +59,9 @@ services:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
       - letsencrypt_:/usr/share/nginx/html
-      - certs_:/etc/nginx/certs
+      - certs_:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - NGINX_DOCKER_GEN_CONTAINER=lb_dockergen
       - NGINX_PROXY_CONTAINER=lb_nginx
+      - REUSE_KEY=true
