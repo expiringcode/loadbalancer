@@ -73,4 +73,3 @@ services:
     environment:
       - NGINX_DOCKER_GEN_CONTAINER=lb_dockergen
       - NGINX_PROXY_CONTAINER=lb_nginx
-      - REUSE_KEY=true
