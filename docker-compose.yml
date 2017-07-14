@@ -24,7 +24,7 @@ services:
 
   nginx:
     image: nginx:1.13-alpine
-    container_name: nginx
+    container_name: $COMPOSE_PROJECT_NAME.nginx
     restart: unless-stopped
     labels:
         com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
@@ -42,7 +42,7 @@ services:
 
   dockergen: 
     build: images/dockergen
-    container_name: dockergen
+    container_name: $COMPOSE_PROJECT_NAME.dockergen
     restart: unless-stopped
     entrypoint: /usr/local/bin/docker-gen -notify-sighup nginx -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
     networks:
@@ -59,7 +59,7 @@ services:
       - nginx
       - dockergen
     build: images/letsencrypt
-    container_name: letsencrypt
+    container_name: $COMPOSE_PROJECT_NAME.letsencrypt
     restart: unless-stopped
     networks:
       - tier_0
