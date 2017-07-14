@@ -5,14 +5,14 @@ networks:
     driver: "bridge"
     ipam:
       config:
-        - subnet: 150.50.0.0/16
-        - gateway: 150.50.0.1
+        - subnet: 172.16.0.0/12
+        - gateway: 172.16.0.1
   tier_1:
     driver: "bridge"
     ipam:
       config:
-        - subnet: 170.70.0.0/16
-        - gateway: 170.70.0.1
+        - subnet: 172.17.0.0/12
+        - gateway: 172.17.0.1
 
 volumes:
   nginx_:
