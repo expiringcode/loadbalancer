@@ -47,7 +47,6 @@ services:
     entrypoint: /usr/local/bin/docker-gen -notify-sighup $COMPOSE_PROJECT_NAME.nginx -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
     networks:
       - tier_1
-      - tier_0
     volumes:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
