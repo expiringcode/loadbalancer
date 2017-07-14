@@ -2,17 +2,17 @@ version: "3"
 
 networks:
   tier_0:
-    driver: "bridge"
-    ipam:
-      config:
-        - subnet: 172.16.0.0/12
-        - gateway: 172.16.0.1
+    # driver: "bridge"
+    # ipam:
+    #   config:
+    #     - subnet: 172.16.0.0/12
+    #     - gateway: 172.16.0.1
   tier_1:
-    driver: "bridge"
-    ipam:
-      config:
-        - subnet: 172.17.0.0/12
-        - gateway: 172.17.0.1
+    # driver: "bridge"
+    # ipam:
+    #   config:
+    #     - subnet: 172.17.0.0/12
+    #     - gateway: 172.17.0.1
 
 volumes:
   nginx_:
