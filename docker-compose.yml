@@ -23,7 +23,8 @@ volumes:
 services:
 
   nginx:
-    image: nginx:1.13-alpine
+    #image: nginx:1.13-alpine
+    build: images/nginx
     container_name: $COMPOSE_PROJECT_NAME.nginx
     restart: unless-stopped
     labels:
