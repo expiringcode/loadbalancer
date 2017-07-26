@@ -1,4 +1,4 @@
-FROM haproxy:1.7-alpine
+FROM dockercloud/haproxy:latest
 
-COPY ./conf/haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+# COPY ./conf/haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 

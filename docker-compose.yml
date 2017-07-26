@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 networks:
   tier_0:
@@ -21,6 +21,26 @@ volumes:
   letsencrypt_:
 
 services:
+
+  haproxy:
+    #image: nginx:1.13-alpine
+    build: images/haproxy
+    container_name: $COMPOSE_PROJECT_NAME.haproxy
+    restart: unless-stopped
+    roles:
+      - global
+    ports:
+      - "8080:80"
+      - "8888:443"
+      - "1936:1936"
+    networks:
+      - tier_0
+      - tier_1
+    # volumes:
+    #   - vhost_:/etc/nginx/vhost.d
+    #   - nginx_:/etc/nginx/conf.d
+    #   - letsencrypt_:/usr/share/nginx/html
+    #   - certs_:/etc/nginx/certs:ro
 
   nginx:
     #image: nginx:1.13-alpine
