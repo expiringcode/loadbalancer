@@ -3,5 +3,5 @@
 ## Install
 
 ```bash
-$ docker-compose -f network/docker-compose.yml up -d
+$ docker-compose up -d
 ```
