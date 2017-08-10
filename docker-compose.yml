@@ -22,20 +22,20 @@ volumes:
 
 services:
 
-  haproxy:
-    #image: nginx:1.13-alpine
-    build: images/haproxy
-    container_name: $COMPOSE_PROJECT_NAME.haproxy
-    restart: unless-stopped
-    roles:
-      - global
-    ports:
-      - "8080:80"
-      - "8888:443"
-      - "1936:1936"
-    networks:
-      - tier_0
-      - tier_1
+  # haproxy:
+  #   #image: nginx:1.13-alpine
+  #   build: images/haproxy
+  #   container_name: $COMPOSE_PROJECT_NAME.haproxy
+  #   restart: unless-stopped
+  #   roles:
+  #     - global
+  #   ports:
+  #     - "8080:80"
+  #     - "8888:443"
+  #     - "1936:1936"
+  #   networks:
+  #     - tier_0
+  #     - tier_1
     # volumes:
     #   - vhost_:/etc/nginx/vhost.d
     #   - nginx_:/etc/nginx/conf.d
