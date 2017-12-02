@@ -1,13 +1,19 @@
 version: "3"
 
 networks:
-  tier_0:
+  tier_0: ## Outside world
     # driver: "bridge"
     # ipam:
     #   config:
     #     - subnet: 172.16.0.0/12
     #     - gateway: 172.16.0.1
-  tier_1:
+  tier_1: ## Inside proxy
+    # driver: "bridge"
+    # ipam:
+    #   config:
+    #     - subnet: 172.17.0.0/12
+    #     - gateway: 172.17.0.1
+  tier_log: ## Logging
     # driver: "bridge"
     # ipam:
     #   config:
@@ -22,28 +28,10 @@ volumes:
 
 services:
 
-  # haproxy:
-  #   #image: nginx:1.13-alpine
-  #   build: images/haproxy
-  #   container_name: $COMPOSE_PROJECT_NAME.haproxy
-  #   restart: unless-stopped
-  #   roles:
-  #     - global
-  #   ports:
-  #     - "8080:80"
-  #     - "8888:443"
-  #     - "1936:1936"
-  #   networks:
-  #     - tier_0
-  #     - tier_1
-    # volumes:
-    #   - vhost_:/etc/nginx/vhost.d
-    #   - nginx_:/etc/nginx/conf.d
-    #   - letsencrypt_:/usr/share/nginx/html
-    #   - certs_:/etc/nginx/certs:ro
-
+  ###########
+  ## PROXY ##
+  ###########
   nginx:
-    #image: nginx:1.13-alpine
     build: images/nginx
     container_name: $COMPOSE_PROJECT_NAME.nginx
     restart: unless-stopped
@@ -55,6 +43,7 @@ services:
     networks:
       - tier_0
       - tier_1
+      - tier_log
     volumes:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
@@ -68,6 +57,7 @@ services:
     entrypoint: /usr/local/bin/docker-gen -notify-sighup $COMPOSE_PROJECT_NAME.nginx -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
     networks:
       - tier_1
+      - tier_log
     volumes:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
@@ -85,6 +75,7 @@ services:
     networks:
       - tier_0
       - tier_1
+      - tier_log
     volumes:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
@@ -94,3 +85,68 @@ services:
     environment:
       - NGINX_DOCKER_GEN_CONTAINER=$COMPOSE_PROJECT_NAME.dockergen
       - NGINX_PROXY_CONTAINER=$COMPOSE_PROJECT_NAME.nginx
+
+
+
+  #############
+  ## Logging ##
+  #############
+  logspout:
+    container_name: $COMPOSE_PROJECT_NAME.logspout
+    build: ./images/logspout
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - tier_log
+    depends_on:
+      - logstash
+    restart: on-failure
+
+  elasticsearch:
+    container_name: $COMPOSE_PROJECT_NAME.elasticsearch
+    build:
+      context: ./images/elasticsearch/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    env_file:
+      - .env
+    networks:
+      - tier_log
+
+  logstash:
+    container_name: $COMPOSE_PROJECT_NAME.logstash
+    build:
+      context: ./images/logstash/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    env_file:
+      - .env
+    networks:
+      - tier_log
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    container_name: $COMPOSE_PROJECT_NAME.kibana
+    build:
+      context: ./images/kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    ports:
+      - "5601:5601"
+    env_file:
+      - .env
+    networks:
+      - tier_log
+      - tier_0
+    depends_on:
+      - elasticsearch
+
+
+
+
+
+
+
+
+
