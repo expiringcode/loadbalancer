@@ -93,7 +93,6 @@ services:
       - NGINX_PROXY_CONTAINER=$COMPOSE_PROJECT_NAME.nginx
 
 
-
   #############
   ## Logging ##
   #############
@@ -108,10 +107,11 @@ services:
       - tier_log
     depends_on:
       - logstash
-    restart: on-failure
+    restart: unless-stopped
 
   elasticsearch:
     container_name: $COMPOSE_PROJECT_NAME.elasticsearch
+    restart: unless-stopped
     build:
       context: ./images/elasticsearch/
       args:
@@ -123,6 +123,7 @@ services:
 
   logstash:
     container_name: $COMPOSE_PROJECT_NAME.logstash
+    restart: unless-stopped
     build:
       context: ./images/logstash/
       args:
@@ -136,6 +137,7 @@ services:
 
   kibana:
     container_name: $COMPOSE_PROJECT_NAME.kibana
+    restart: unless-stopped
     build:
       context: ./images/kibana/
       args:
