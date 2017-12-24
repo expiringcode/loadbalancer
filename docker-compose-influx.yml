@@ -27,8 +27,11 @@ services:
     image: chronograf:1.3-alpine
     env_file:
       - ./.env.chronograf
+    ports:
+      - 8888:8888
     networks:
       - tier_log
+      - tier_1
   # Define a Kapacitor service
   kapacitor:
     container_name: $COMPOSE_PROJECT_NAME.kapacitor
