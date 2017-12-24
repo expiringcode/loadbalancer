@@ -2,23 +2,8 @@ version: "3"
 
 networks:
   tier_0: ## Outside world
-    # driver: "bridge"
-    # ipam:
-    #   config:
-    #     - subnet: 172.16.0.0/12
-    #     - gateway: 172.16.0.1
   tier_1: ## Inside proxy
-    # driver: "bridge"
-    # ipam:
-    #   config:
-    #     - subnet: 172.17.0.0/12
-    #     - gateway: 172.17.0.1
   tier_log: ## Logging
-    # driver: "bridge"
-    # ipam:
-    #   config:
-    #     - subnet: 172.17.0.0/12
-    #     - gateway: 172.17.0.1
 
 volumes:
   nginx_:
@@ -91,71 +76,3 @@ services:
     environment:
       - NGINX_DOCKER_GEN_CONTAINER=$COMPOSE_PROJECT_NAME.dockergen
       - NGINX_PROXY_CONTAINER=$COMPOSE_PROJECT_NAME.nginx
-
-
-  #############
-  ## Logging ##
-  #############
-  logspout:
-    container_name: $COMPOSE_PROJECT_NAME.logspout
-    build: ./images/logspout
-    env_file:
-      - .env
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - tier_log
-    depends_on:
-      - logstash
-    restart: unless-stopped
-
-  elasticsearch:
-    container_name: $COMPOSE_PROJECT_NAME.elasticsearch
-    restart: unless-stopped
-    build:
-      context: ./images/elasticsearch/
-      args:
-        ELK_VERSION: $ELK_VERSION
-    env_file:
-      - .env
-    networks:
-      - tier_log
-
-  logstash:
-    container_name: $COMPOSE_PROJECT_NAME.logstash
-    restart: unless-stopped
-    build:
-      context: ./images/logstash/
-      args:
-        ELK_VERSION: $ELK_VERSION
-    env_file:
-      - .env
-    networks:
-      - tier_log
-    depends_on:
-      - elasticsearch
-
-  kibana:
-    container_name: $COMPOSE_PROJECT_NAME.kibana
-    restart: unless-stopped
-    build:
-      context: ./images/kibana/
-      args:
-        ELK_VERSION: $ELK_VERSION
-    environment:
-      - VIRTUAL_HOST=localhost
-    env_file:
-      - .env
-    networks:
-      - tier_log
-    depends_on:
-      - elasticsearch
-
-
-
-
-
-
-
-
-

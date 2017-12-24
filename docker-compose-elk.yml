@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  #############
+  ## Logging ##
+  #############
+  logspout:
+    container_name: $COMPOSE_PROJECT_NAME.logspout
+    build: ./images/logspout
+    env_file:
+      - .env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - tier_log
+    depends_on:
+      - logstash
+    restart: unless-stopped
+
+  elasticsearch:
+    container_name: $COMPOSE_PROJECT_NAME.elasticsearch
+    restart: unless-stopped
+    build:
+      context: ./images/elasticsearch/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    env_file:
+      - .env
+    networks:
+      - tier_log
+
+  logstash:
+    container_name: $COMPOSE_PROJECT_NAME.logstash
+    restart: unless-stopped
+    build:
+      context: ./images/logstash/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    env_file:
+      - .env
+    networks:
+      - tier_log
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    container_name: $COMPOSE_PROJECT_NAME.kibana
+    restart: unless-stopped
+    build:
+      context: ./images/kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    environment:
+      - VIRTUAL_HOST=localhost
+    env_file:
+      - .env
+    networks:
+      - tier_log
+    depends_on:
+      - elasticsearch
