@@ -1,6 +1,3 @@
 [submodule "images/letsencrypt"]
 	path = images/letsencrypt
 	url = https://github.com/blimpair/docker-letsencrypt-nginx-proxy-companion.git
-[submodule "images/dockercloud-haproxy"]
-	path = images/dockercloud-haproxy
-	url = https://github.com/blimpair/dockercloud-haproxy.git
