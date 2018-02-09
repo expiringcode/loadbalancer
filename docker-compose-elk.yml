@@ -1,10 +1,18 @@
 version: "3"
 
+volumes:
+  elasticsearch_:
+networks:
+  tier_0: ## Outside world
+  tier_1: ## Inside proxy
+  tier_log: ## Logging
+
 services:
   #############
   ## Logging ##
   #############
   logspout:
+    image: registry.progress44.com/logspout:latest
     container_name: $COMPOSE_PROJECT_NAME.logspout
     build: ./images/logspout
     env_file:
@@ -15,11 +23,17 @@ services:
       - tier_log
     depends_on:
       - logstash
+      - kibana
     restart: unless-stopped
 
   elasticsearch:
+    image: registry.progress44.com/elasticsearch:latest
     container_name: $COMPOSE_PROJECT_NAME.elasticsearch
     restart: unless-stopped
+    volumes:
+      - elasticsearch_:/usr/share/elasticsearch/data
+    environment:
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     build:
       context: ./images/elasticsearch/
       args:
@@ -30,20 +44,25 @@ services:
       - tier_log
 
   logstash:
+    image: registry.progress44.com/logstash:latest
     container_name: $COMPOSE_PROJECT_NAME.logstash
     restart: unless-stopped
     build:
       context: ./images/logstash/
       args:
         ELK_VERSION: $ELK_VERSION
+    environment:
+      - 'xpack.monitoring.elasticsearch.password=${ELASTIC_PASSWORD}'
     env_file:
       - .env
     networks:
       - tier_log
     depends_on:
       - elasticsearch
+      - elk_starter
 
   kibana:
+    image: registry.progress44.com/kibana:latest
     container_name: $COMPOSE_PROJECT_NAME.kibana
     restart: unless-stopped
     build:
@@ -52,6 +71,26 @@ services:
         ELK_VERSION: $ELK_VERSION
     environment:
       - VIRTUAL_HOST=localhost
+      - ELASTICSEARCH_USERNAME=kibana
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - "5601:5601"
+    networks:
+      - tier_log
+    depends_on:
+      - elasticsearch
+      - logstash
+      - elk_starter
+
+  elk_starter:
+    image: registry.progress44.com/elk_starter:latest
+    container_name: $COMPOSE_PROJECT_NAME.elk_starter
+    build:
+      context: ./images/elk_starter/
+      args:
+        ELK_VERSION: $ELK_VERSION
     env_file:
       - .env
     networks:

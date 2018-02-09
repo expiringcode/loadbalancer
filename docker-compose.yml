@@ -17,6 +17,7 @@ services:
   ## PROXY ##
   ###########
   nginx:
+    image: registry.progress44.com/nginx:latest
     build: images/nginx
     container_name: $COMPOSE_PROJECT_NAME.nginx
     restart: unless-stopped
@@ -37,7 +38,8 @@ services:
       - letsencrypt_:/usr/share/nginx/html
       - certs_:/etc/nginx/certs:ro
 
-  dockergen: 
+  dockergen:
+    image: registry.progress44.com/dockergen:latest
     build: images/dockergen
     container_name: $COMPOSE_PROJECT_NAME.dockergen
     restart: unless-stopped
@@ -55,6 +57,7 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
   letsencrypt:
+    image: registry.progress44.com/letsencrypt:latest
     depends_on:
       - nginx
       - dockergen
