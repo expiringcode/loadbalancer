@@ -52,7 +52,8 @@ services:
       args:
         ELK_VERSION: $ELK_VERSION
     environment:
-      - 'xpack.monitoring.elasticsearch.password=${ELASTIC_PASSWORD}'
+      - xpack.monitoring.elasticsearch.password=${ELASTIC_PASSWORD}
+      - xpack.monitoring.elasticsearch.username=logstash_system
     env_file:
       - .env
     networks:
@@ -73,6 +74,8 @@ services:
       - VIRTUAL_HOST=localhost
       - ELASTICSEARCH_USERNAME=kibana
       - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+      - elasticsearch.username=elastic
+      - elasticsearch.password=${ELASTIC_PASSWORD}
     env_file:
       - .env
     ports:
