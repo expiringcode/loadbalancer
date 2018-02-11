@@ -22,10 +22,11 @@ The project aims to package a set of existing software to make webapp deployment
 ### Main layer
 	
 - **Nginx** used as a proxy
-- **(Dockgergen)[https://github.com/jwilder/docker-gen]**
+- **[Dockgergen](https://github.com/jwilder/docker-gen)**
 	- Creates nginx configuration automatically for containers. All it needs is a `VIRTUAL_HOST` environment varialble
 - **Letsencrypt**
 	- Automatically enables HTTPS on a container when the `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` environment variables are present.
+
 
 ### Logging
 
@@ -47,10 +48,8 @@ Two more containers were added:
 - `elk_starter`: Configures elasticsearch for kibana and logstash and sets an index.
 
 > Kibana (with x-pack enabled) offers authentication. It is set by default to:
-
 > u: elastic 
 > p: changeme
-
 > u: kibana
 > p: changeme
 
@@ -67,7 +66,7 @@ The TICK stack includes the following containers:
 
 It is configured to handle inputs both from the host system and from the docker socket to monitor all the containers.
 
->> Chronograf can be configured to use github authentication
+> Chronograf can be configured to use github authentication
 
 ### Usage
 
