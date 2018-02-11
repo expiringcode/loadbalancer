@@ -62,6 +62,40 @@ It is configured to handle inputs both from the host system and from the docker 
 
 >> Chronograf can be configured to use github authentication
 
+### Usage
+
+You can use the full solution or combine parts of it.
+
+- To install just the proxy (with letsencrypt) run 
+
+```
+docker-compose up -d --build
+```
+
+- To install the proxy and ELK use:
+
+```
+docker-compose up -f docker-compose.yml -f docker-compose-elk.yml -d --build
+```
+
+- Finally to install the proxy with just TICK run:
+
+```
+docker-compose up -f docker-compose.yml -f docker-compose-influx.yml -d --build
+```
+
+- To install everything run the following instead:
+
+```
+docker-compose up -f docker-compose.yml -f docker-compose-elk.yml -f docker-compose-influx.yml -d --build
+```
+
+>> If you want to use TICK or ELK, you must start from the `proxy` yml, because they both use networks defined in docker-compose.yml. docker-compose-elk.yml and docker-compose-influx.yml extend docker-compose.yml
+
+## Requirements
+
+
+
 ## Todo
 
 - IP Filtering
