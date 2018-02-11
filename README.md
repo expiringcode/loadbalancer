@@ -8,6 +8,8 @@ $ docker-compose -f docker-compose.yml -f docker-compose-elk.yml -f docker-compo
 
 ## Purpose
 
+The project aims to package a set of existing software to make webapp deployments fast, easy and secure.
+
 ### Advantages
 
 - Automatically handled HTTPS configuration, load balancing with proxy
