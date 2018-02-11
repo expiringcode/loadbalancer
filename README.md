@@ -96,7 +96,7 @@ docker-compose up -f docker-compose.yml -f docker-compose-influx.yml -d --build
 docker-compose up -f docker-compose.yml -f docker-compose-elk.yml -f docker-compose-influx.yml -d --build
 ```
 
->> If you want to use TICK or ELK, you must start from the `proxy` yml, because they both use networks defined in docker-compose.yml. docker-compose-elk.yml and docker-compose-influx.yml extend docker-compose.yml
+> If you want to use TICK or ELK, you must start from the `proxy` yml, because they both use networks defined in docker-compose.yml. docker-compose-elk.yml and docker-compose-influx.yml extend docker-compose.yml
 
 ## Requirements
 
@@ -126,11 +126,15 @@ docker-compose up -f docker-compose.yml -f docker-compose-elk.yml -f docker-comp
 ## Updating
 
 InfluxData (TICK) stalk: 1.3-alpine
+
 ElasticSearch (ELK) stalk: 6.2.0 (x-pack enabled)
+
 Dockergen: jwilder/dockergen:latest
+
 Letsencrypt: 
 - Dockergen: 0.7.3
 - Alpine: 3.3
+
 Nginx: 1.13
 
 All the containers (where possible) are based on Alpine
