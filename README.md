@@ -27,8 +27,7 @@ The project aims to package a set of existing software to make webapp deployment
 - **Letsencrypt**
 	- Automatically enables HTTPS on a container when the `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` environment variables are present.
 
-
-### Logging
+### Logging
 
 Logging is done in two ways,  using the ELK (elasticsearch) stack and using TICK (influxdata) stack. 
 
