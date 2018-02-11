@@ -10,6 +10,11 @@ $ docker-compose -f docker-compose.yml -f docker-compose-elk.yml -f docker-compo
 
 ### Advantages
 
+- Automatically handled HTTPS configuration, load balancing with proxy
+- Continuos logging and alerts monitoring your projects with very little effort
+- Easy setup
+- Access to logs without needing to access the server
+
 ## Design
 
 ### Main layer
@@ -94,6 +99,21 @@ docker-compose up -f docker-compose.yml -f docker-compose-elk.yml -f docker-comp
 
 ## Requirements
 
+- The proxy stack with Nginx, Letsencrypt and Dockergen requires few resources being based on **Linux Alpine**. Altogether they need about *100MB* of disk space.
+	- Nginx needs about **5MB** of RAM
+	- Letsencrypt needs less than **4MB** of RAM
+	- Dockergen uses less than **3MB** of RAM
+- InfluxData stack nees about *200MB* of disk space.
+	- InfluxDB uses an average of **200MB** of RAM
+	- Chronograf on Idle uses about **9MB** of RAM
+	- Telegraf uses around **12MB** of RAM instead
+	- Kapacitor may need about **20MB** of RAM
+- The ELK stack images have quite an impact needing more than *2.2GB* of disk space.
+	- ElasticSearch uses at least **512MB** of RAM and can go up fast
+	- Kibana requires about **200MB** of RAM on idle
+	- Logstash requires a lot of memory as well with an average of 600MB so more than **512MB** of RAM
+	- Logspout needs just **9MB** of RAM to monitor docker containers
+	- elk_starter will die as soon as it's job is done so it won't require any resources
 
 
 ## Todo
