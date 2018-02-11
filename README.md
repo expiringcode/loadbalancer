@@ -22,7 +22,7 @@ The project aims to package a set of existing software to make webapp deployment
 ### Main layer
 	
 - **Nginx** used as a proxy
-- (**Dockgergen**)[https://github.com/jwilder/dockergen]
+- **(Dockgergen)[https://github.com/jwilder/docker-gen]**
 	- Creates nginx configuration automatically for containers. All it needs is a `VIRTUAL_HOST` environment varialble
 - **Letsencrypt**
 	- Automatically enables HTTPS on a container when the `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` environment variables are present.
