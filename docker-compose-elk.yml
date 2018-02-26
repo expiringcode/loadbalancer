@@ -8,7 +8,7 @@ services:
   ## Logging ##
   #############
   logspout:
-    image: ${REGISTRY}logspout:latest
+    image: ${REGISTRY}/logspout:latest
     container_name: $COMPOSE_PROJECT_NAME.logspout
     build: ./images/logspout
     env_file:
@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
 
   elasticsearch:
-    image: ${REGISTRY}elasticsearch:latest
+    image: ${REGISTRY}/elasticsearch:latest
     container_name: $COMPOSE_PROJECT_NAME.elasticsearch
     restart: unless-stopped
     volumes:
@@ -38,7 +38,7 @@ services:
       - tier_log
 
   logstash:
-    image: ${REGISTRY}logstash:latest
+    image: ${REGISTRY}/logstash:latest
     container_name: $COMPOSE_PROJECT_NAME.logstash
     restart: unless-stopped
     build:
@@ -57,7 +57,7 @@ services:
       - elk_starter
 
   kibana:
-    image: ${REGISTRY}kibana:latest
+    image: ${REGISTRY}/kibana:latest
     container_name: $COMPOSE_PROJECT_NAME.kibana
     restart: unless-stopped
     build:
@@ -80,7 +80,7 @@ services:
       - elk_starter
 
   elk_starter:
-    image: ${REGISTRY}elk_starter:latest
+    image: ${REGISTRY}/elk_starter:latest
     container_name: $COMPOSE_PROJECT_NAME.elk_starter
     build:
       context: ./images/elk_starter/
