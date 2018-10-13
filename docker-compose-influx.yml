@@ -18,16 +18,16 @@ services:
   # Define an InfluxDB service
   influxdb:
     container_name: $COMPOSE_PROJECT_NAME.influxdb
-    image: influxdb:1.3-alpine
+    image: influxdb:1.5-alpine
+    restart: unless-stopped
     volumes:
       - influxdb_:/var/lib/influxdb
     networks:
       - tier_log
   # Define a Chronograf service
   chronograf:
-    image: ${REGISTRY}/chronograf:latest
     container_name: $COMPOSE_PROJECT_NAME.chronograf
-    image: chronograf:1.3-alpine
+    image: chronograf:1.6-alpine
     restart: unless-stopped
     env_file:
       - ./.env.chronograf
@@ -37,7 +37,7 @@ services:
   # Define a Kapacitor service
   kapacitor:
     container_name: $COMPOSE_PROJECT_NAME.kapacitor
-    image: kapacitor:1.3-alpine
+    image: kapacitor:1.5-alpine
     restart: unless-stopped
     environment:
       KAPACITOR_HOSTNAME: kapacitor
