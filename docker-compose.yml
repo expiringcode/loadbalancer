@@ -9,7 +9,6 @@ volumes:
   nginx_:
   vhost_:
   certs_:
-  letsencrypt_:
 
 services:
 
@@ -35,7 +34,6 @@ services:
     volumes:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
-      - letsencrypt_:/usr/share/nginx/html
       - certs_:/etc/nginx/certs:ro
 
   dockergen:
@@ -52,29 +50,5 @@ services:
     volumes:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
-      - letsencrypt_:/usr/share/nginx/html
       - certs_:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
-
-  letsencrypt:
-    image: ${REGISTRY}/letsencrypt:latest
-    depends_on:
-      - nginx
-      - dockergen
-    build: images/letsencrypt
-    container_name: $COMPOSE_PROJECT_NAME.letsencrypt
-    restart: unless-stopped
-    networks:
-      - tier_0
-      - tier_1
-      - tier_log
-    volumes:
-      - vhost_:/etc/nginx/vhost.d
-      - nginx_:/etc/nginx/conf.d
-      - letsencrypt_:/usr/share/nginx/html
-      - certs_:/etc/nginx/certs:rw
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - LOGSTASH_TAGS="loadbalancer,proxy"
-      - NGINX_DOCKER_GEN_CONTAINER=$COMPOSE_PROJECT_NAME.dockergen
-      - NGINX_PROXY_CONTAINER=$COMPOSE_PROJECT_NAME.nginx
