@@ -31,7 +31,6 @@ services:
     depends_on:
       - nginx
       - dockergen
-    build: images/letsencrypt
     container_name: $COMPOSE_PROJECT_NAME.letsencrypt
     restart: unless-stopped
     networks:

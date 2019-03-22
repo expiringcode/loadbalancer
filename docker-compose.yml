@@ -17,7 +17,6 @@ services:
   ###########
   nginx:
     image: ${REGISTRY}/nginx:latest
-    build: images/nginx
     container_name: $COMPOSE_PROJECT_NAME.nginx
     restart: unless-stopped
     environment:
@@ -38,7 +37,6 @@ services:
 
   dockergen:
     image: ${REGISTRY}/dockergen:latest
-    build: images/dockergen
     container_name: $COMPOSE_PROJECT_NAME.dockergen
     restart: unless-stopped
     environment:

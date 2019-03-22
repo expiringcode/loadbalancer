@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+
+  ###########
+  ## PROXY ##
+  ###########
+  nginx:
+    build: images/nginx
+
+  dockergen:
+    build: images/dockergen
