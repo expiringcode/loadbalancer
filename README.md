@@ -80,19 +80,19 @@ docker-compose up -d --build
 - To install the proxy and ELK use:
 
 ```
-docker-compose up -f docker-compose.yml -f docker-compose-elk.yml -d --build
+docker-compose -f docker-compose.yml -f docker-compose-elk.yml up -d --build
 ```
 
 - Finally to install the proxy with just TICK run:
 
 ```
-docker-compose up -f docker-compose.yml -f docker-compose-influx.yml -d --build
+docker-compose -f docker-compose.yml -f docker-compose-influx.yml up -d --build
 ```
 
 - To install everything run the following instead:
 
 ```
-docker-compose up -f docker-compose.yml -f docker-compose-elk.yml -f docker-compose-influx.yml -d --build
+docker-compose -f docker-compose.yml -f docker-compose-elk.yml -f docker-compose-influx.yml up -d --build
 ```
 
 > If you want to use TICK or ELK, you must start from the `proxy` yml, because they both use networks defined in docker-compose.yml. docker-compose-elk.yml and docker-compose-influx.yml extend docker-compose.yml
