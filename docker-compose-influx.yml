@@ -18,7 +18,7 @@ services:
   # Define an InfluxDB service
   influxdb:
     container_name: $COMPOSE_PROJECT_NAME.influxdb
-    image: influxdb:1.5-alpine
+    image: influxdb:1.7-alpine
     restart: unless-stopped
     volumes:
       - influxdb_:/var/lib/influxdb
@@ -27,7 +27,7 @@ services:
   # Define a Chronograf service
   chronograf:
     container_name: $COMPOSE_PROJECT_NAME.chronograf
-    image: chronograf:1.6-alpine
+    image: chronograf:1.7-alpine
     restart: unless-stopped
     env_file:
       - ./.env.chronograf
