@@ -1,3 +1,3 @@
-FROM telegraf:1.12-alpine
+FROM telegraf:1.13-alpine
 
 COPY ./conf/telegraf.conf /etc/telegraf/telegraf.conf
