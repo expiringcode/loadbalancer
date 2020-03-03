@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+
+  dns:
+    image: ${REGISTRY}/dnsmasq:latest
+    container_name: $COMPOSE_PROJECT_NAME.dns
+    restart: unless-stopped
+    ports:
+      - 53:53/udp
+      - 53:53/tcp
+    command: --log-facility=-
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - tier_1
+
+networks:
+  tier_1:
