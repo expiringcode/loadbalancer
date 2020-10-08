@@ -43,6 +43,7 @@ services:
       - LOGSTASH_TAGS="loadbalancer,proxy"
     entrypoint: /usr/local/bin/docker-gen -notify-sighup $COMPOSE_PROJECT_NAME.nginx -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
     networks:
+      - tier_0
       - tier_1
       - tier_log
     volumes:
