@@ -93,12 +93,7 @@ docker-compose -f docker-compose.yml -f docker-compose-influx.yml up -d --build
 
 Use the following to install Portainer and Watchtower to manage your single node cluster.
 
-Set the following environment variables before running the services
-
-```
-set VIRTUAL_HOST=portainer.myhost.com
-set LETSENCRYPT_EMAIL=admin@email.com
-```
+Update .env.node.management to configure these services
 
 Then run the services with docker-compose
 
