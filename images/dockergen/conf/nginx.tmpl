@@ -282,6 +282,13 @@ server {
 		fastcgi_pass {{ trim $upstream_name }};
 		{{ else }}
 		proxy_pass {{ trim $proto }}://{{ trim $upstream_name }};
+		
+		# We need to pass some headers to the upstream
+		proxy_set_header Host $http_host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-Proto https;
+		proxy_set_header X-Forwarded-Ssl on;
+		proxy_set_header X-Url-Scheme https;
 		{{ end }}
 
 		{{ if (exists (printf "/etc/nginx/htpasswd/%s" $host)) }}
