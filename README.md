@@ -89,6 +89,23 @@ docker-compose -f docker-compose.yml -f docker-compose-elk.yml up -d --build
 docker-compose -f docker-compose.yml -f docker-compose-influx.yml up -d --build
 ```
 
+- [Optional] Install basic management services:
+
+Use the following to install Portainer and Watchtower to manage your single node cluster.
+
+Set the following environment variables before running the services
+
+```
+set VIRTUAL_HOST=portainer.myhost.com
+set LETSENCRYPT_EMAIL=admin@email.com
+```
+
+Then run the services with docker-compose
+
+```
+docker-compose -f docker-compose-node-management.yml up -d --build
+```
+
 - To install everything run the following instead:
 
 ```
