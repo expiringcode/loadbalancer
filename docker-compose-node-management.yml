@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  
+  portainer:
+    image: "portainer/portainer"
+    restart: unless-stopped
+    env_file:
+      - .env.node.management
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/data
+    networks:
+      - tier_0
+      - tier_3
+
+  watchtower:
+    image: "containrrr/watchtower"
+    env_file: 
+      - .env.node.management
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --schedule "3 0 * * * *"
+
+networks:
+  tier_2: null
+  tier_3: null
+  tier_0:
+    external:
+      name: network_tier_0
+  tier_1:
+    external:
+      name: network_tier_1
