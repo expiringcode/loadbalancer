@@ -1,0 +1,22 @@
+version: 2
+updates:
+- package-ecosystem: docker
+  directory: "/images/nginx"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: docker
+  directory: "/images/dnsmasq"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+- package-ecosystem: docker
+  directory: "/images/telegraf"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: telegraf
+    versions:
+    - 1.17.3.pre.alpine
+    - 1.18.0.pre.alpine
