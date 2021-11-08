@@ -1,3 +1,3 @@
-FROM andyshinn/dnsmasq:2.84
+FROM andyshinn/dnsmasq:latest
 
 COPY ./dnsmasq.conf /etc/dnsmasq.conf
