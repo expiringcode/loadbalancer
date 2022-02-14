@@ -3,10 +3,12 @@ version: "3"
 services:
   
   portainer:
-    image: "portainer/portainer"
+    image: "portainer/portainer-ce"
     restart: unless-stopped
     env_file:
       - .env.node.management
+    environment:
+      - VIRTUAL_PORT=9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data:/data
