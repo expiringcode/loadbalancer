@@ -3,7 +3,7 @@ on:
   - push
 
 jobs: 
-  login:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Login to Docker Hub
@@ -11,9 +11,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-  build:
-    runs-on: ubuntu-latest
-    steps:
       - name: "Add checkout"
         uses: actions/checkout@v2
       - name: "Build and push"
