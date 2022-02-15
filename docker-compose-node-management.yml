@@ -3,7 +3,7 @@ version: "3"
 services:
   
   portainer:
-    image: "portainer/portainer-ce"
+    image: "portainer/portainer-ee"
     restart: unless-stopped
     env_file:
       - .env.node.management
