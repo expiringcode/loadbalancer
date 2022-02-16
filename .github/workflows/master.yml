@@ -1,4 +1,4 @@
-name: ci
+name: Build and Push
 on: 
   - push
 
@@ -11,6 +11,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Pull & update submodules recursively
+        run: |
+          git submodule update --init --recursive
+          git submodule update --recursive --remote
       - name: "Add checkout"
         uses: actions/checkout@v2
       - name: "Build and push"
