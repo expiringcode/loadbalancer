@@ -46,6 +46,7 @@ deploy-lb:
 deploy-dns:
 	@echo "Deploying DNS"
 	@docker-compose -f docker-compose-dnsmasq.yml up -d
+	sh ./bin/dns-mac.sh
 
 deploy-elk:
 	@echo "Deploying Elastic Stack"
