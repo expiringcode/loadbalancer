@@ -1,7 +1,6 @@
 version: "3"
 
 services:
-  
   portainer:
     image: "portainer/portainer-ee"
     restart: unless-stopped
@@ -11,14 +10,14 @@ services:
       - VIRTUAL_PORT=9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./data:/data
+      - /mnt/data/portainer/services.progress44.com/data:/data
     networks:
       - tier_0
       - tier_3
 
   watchtower:
     image: "containrrr/watchtower"
-    env_file: 
+    env_file:
       - .env.node.management
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -28,8 +27,6 @@ networks:
   tier_2: null
   tier_3: null
   tier_0:
-    external:
-      name: network_tier_0
+    name: network_tier_0
   tier_1:
-    external:
-      name: network_tier_1
+    name: network_tier_1
