@@ -1,3 +1,0 @@
-[submodule "images/letsencrypt"]
-	path = images/letsencrypt
-	url = git@github.com:blimpair/docker-letsencrypt-nginx-proxy-companion.git
