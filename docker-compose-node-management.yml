@@ -13,7 +13,6 @@ services:
       - /mnt/data/portainer/services.progress44.com/data:/data
     networks:
       - tier_0
-      - tier_3
 
   watchtower:
     image: "containrrr/watchtower"
@@ -24,9 +23,8 @@ services:
     command: --schedule "3 0 * * * *"
 
 networks:
-  tier_2: null
-  tier_3: null
   tier_0:
     name: network_tier_0
   tier_1:
     name: network_tier_1
+  tier_2: null
