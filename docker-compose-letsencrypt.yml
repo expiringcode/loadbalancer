@@ -1,50 +1,24 @@
 version: "3"
 
 volumes:
-  nginx_:
-  vhost_:
-  certs_:
-  letsencrypt_:
+  acme_:
 
 services:
-
-  ###########
-  ## PROXY ##
-  ###########
-  nginx:
-    volumes:
-      - vhost_:/etc/nginx/vhost.d
-      - nginx_:/etc/nginx/conf.d
-      - letsencrypt_:/usr/share/nginx/html
-      - certs_:/etc/nginx/certs:ro
-
-  dockergen:
-    volumes:
-      - vhost_:/etc/nginx/vhost.d
-      - nginx_:/etc/nginx/conf.d
-      - letsencrypt_:/usr/share/nginx/html
-      - certs_:/etc/nginx/certs:ro
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-
   letsencrypt:
-    image: ${REGISTRY}/letsencrypt:latest
+    image: nginxproxy/acme-companion
+    container_name: $COMPOSE_PROJECT_NAME.acme
     depends_on:
       - nginx
       - dockergen
-    container_name: $COMPOSE_PROJECT_NAME.letsencrypt
     restart: unless-stopped
     networks:
       - tier_0
       - tier_1
-      - tier_log
+    volumes_from:
+      - nginx
     volumes:
-      - vhost_:/etc/nginx/vhost.d
-      - nginx_:/etc/nginx/conf.d
-      - letsencrypt_:/usr/share/nginx/html
-      - certs_:/etc/nginx/certs:rw
+      - acme_:/etc/acme.sh
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - DEFAULT_EMAIL=${DEFAULT_EMAIL}
-      - LOGSTASH_TAGS="loadbalancer,proxy"
       - NGINX_DOCKER_GEN_CONTAINER=$COMPOSE_PROJECT_NAME.dockergen
-      - NGINX_PROXY_CONTAINER=$COMPOSE_PROJECT_NAME.nginx
