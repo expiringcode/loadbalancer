@@ -1,3 +1,3 @@
-FROM jwilder/docker-gen
+FROM nginxproxy/docker-gen AS docker-gen
 
 COPY ./conf /etc/docker-gen/templates
