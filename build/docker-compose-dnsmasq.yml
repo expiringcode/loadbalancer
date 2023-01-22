@@ -1,6 +1,0 @@
-version: "3"
-
-services:
-  # Define a Telegraf service
-  dns:
-    build: ./images/dnsmasq
