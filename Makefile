@@ -3,17 +3,22 @@ export $(shell sed 's/=.*//' .env)
 
 default: build
 
+build-prepare:
+	@echo "Prepare Build System"
+	@docker buildx create --name mybuilder --driver docker-container --bootstrap
+	@docker buildx use mybuilder
+	@docker buildx inspect
+
 build-lb:
 	@echo "Building Load Balancer"
-	@docker-compose -f ./docker-compose.yml -f ./build/docker-compose.yml build
-	@docker-compose -f ./docker-compose.yml -f ./build/docker-compose.yml push
+	@docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 ./images/nginx -t ${REGISTRY}/nginx:latest --push
+	@docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 ./images/dockergen -t ${REGISTRY}/dockergen:latest --push
 
 build-dns:
 	@echo "Building DNS"
-	@docker-compose -f docker-compose-dnsmasq.yml -f build/docker-compose-dnsmasq.yml build
-	@docker-compose -f docker-compose-dnsmasq.yml -f build/docker-compose-dnsmasq.yml push
+	@docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 ./images/dnsmasq -t ${REGISTRY}/dnsmasq:latest --push
 
-build: build-lb build-dns build-main
+build: build-lb build-dns
 
 deploy-node-management:
 	@echo "Deploying Node Management"
