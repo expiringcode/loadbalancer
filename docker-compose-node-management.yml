@@ -3,6 +3,7 @@ version: "3"
 services:
   portainer:
     image: "portainer/portainer-ee"
+    container_name: $COMPOSE_PROJECT_NAME.portainer
     restart: unless-stopped
     env_file:
       - .env.node.management
@@ -16,6 +17,7 @@ services:
 
   watchtower:
     image: "containrrr/watchtower"
+    container_name: $COMPOSE_PROJECT_NAME.watchtower
     env_file:
       - .env.node.management
     volumes:
@@ -27,4 +29,3 @@ networks:
     name: network_tier_0
   tier_1:
     name: network_tier_1
-  tier_2: null
