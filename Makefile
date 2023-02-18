@@ -20,10 +20,6 @@ build-dns:
 
 build: build-lb build-dns
 
-deploy-node-management:
-	@echo "Deploying Node Management"
-	@docker-compose -f docker-compose-node-management.yml up -d
-
 deploy-lb:
 	@echo "Deploying Load Balancer with Let's Encrypt"
 	@docker-compose -f ./docker-compose.yml -f ./docker-compose-letsencrypt.yml up -d
@@ -39,11 +35,10 @@ deploy-nginx:
 
 deploy-local: deploy-nginx deploy-dns
 
-deploy: deploy-lb deploy-node-management
+deploy: deploy-lb
 
 clean: 
 	@echo "Cleaning"
-	@docker-compose -f docker-compose.yml -f docker-compose-letsencrypt.yml -f docker-compose-dnsmasq.yml -f docker-compose-elk.yml -f docker-compose-influx.yml -f docker-compose-node-management.yml  down -v --remove-orphans
-	@docker-compose -f docker-compose-node-management.yml down -v --remove-orphans
+	@docker-compose -f docker-compose.yml -f docker-compose-letsencrypt.yml -f docker-compose-dnsmasq.yml down -v --remove-orphans
 
 .PHONY: build deploy
