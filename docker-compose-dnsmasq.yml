@@ -13,7 +13,8 @@ services:
     cap_add:
       - NET_ADMIN
     networks:
-      - tier_1
+      - edge
 
 networks:
-  tier_1:
+  edge:
+    name: edge

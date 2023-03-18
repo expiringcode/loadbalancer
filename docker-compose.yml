@@ -1,8 +1,8 @@
 version: "3"
 
 networks:
-  tier_0: ## Outside world
-  tier_1: ## Inside proxy
+  edge: 
+    name: edge
 
 volumes:
   nginx_:
@@ -24,8 +24,7 @@ services:
       - "80:80"
       - "443:443"
     networks:
-      - tier_0
-      - tier_1
+      - edge
     volumes:
       - vhost_:/etc/nginx/vhost.d
       - nginx_:/etc/nginx/conf.d
@@ -38,8 +37,7 @@ services:
     restart: always
     command: -notify-sighup $COMPOSE_PROJECT_NAME.nginx -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
     networks:
-      - tier_0
-      - tier_1
+      - edge
     volumes_from:
       - nginx
     volumes:
